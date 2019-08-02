@@ -1,27 +1,21 @@
 const Session = require('../models/session-model');
 
 module.exports = joinSession = (user, sessionID) => {
-  return Session.findOne({ user })
-    .then((currentUser) => {
-      if (!currentUser) {
-        return Session.findOne({sessionID})
-        .then((currentSession) => {
-          if (currentSession) {
-            new Session({
-              sessionID,
-              user,
-              score: 0,
-              role: 0
-            }).save()
-            status = 0 
-          } else {
-            status = 1
-          }
-          return status
-        })
+  const { displayName, id } = user;
+
+  return Session.findOne({ sessionID })
+    .then((currentSession) => {
+      if (currentSession) {
+        new Session({
+          sessionID,
+          userID: id,
+          user: displayName,
+          score: 0,
+          role: 0
+        }).save()
+        return true
       } else {
-        status = 2
+        return false
       }
-      return status;
     })
 }

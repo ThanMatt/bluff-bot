@@ -1,24 +1,17 @@
 const Session = require('../models/session-model');
-const getHost = require('../functions/getHost');
 
-module.exports = checkSession = (user) => {
-  return Session.findOne({ user })
-    .then((currentUser) => {
-      if (currentUser) {
-        const { sessionID } = currentUser;
+module.exports = checkSession = (currentUser) => {
+  const { sessionID } = currentUser;
 
-        return Session.find({ sessionID })
-          .then(async (currentSession) => {
-            host = await getHost(sessionID);
-            users = currentSession.map((sessionUser) => { return sessionUser.user })
-            return {
-              host,
-              users
-            }
-          })
+  return Session.find({ sessionID })
+    .then((currentSession) => {
+      if (currentSession) {
+        const players = currentSession.map((player) => { return player.user })
 
-      } else {
-        return false
+        return players;
       }
+      return false
+    }).catch((err) => {
+      console.log(`There was an error: ${err}`)
     })
 }

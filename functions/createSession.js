@@ -1,21 +1,19 @@
 const Session = require('../models/session-model');
 
 module.exports = createSession = (user, sessionID) => {
-  return Session.findOne({ user })
-    .then((currentAuthor) => {
-      if (!currentAuthor) {
-        new Session({
-          sessionID,
-          user,
-          score: 0,
-          role: 1
-        }).save().then(() => {
-          console.log(`Session ID ${sessionID} created by ${user}`)
-        })
-        return false;
-      } else {
-        return true
-      }
-    })
+  const { id, displayName } = user;
+  return new Session({
+    sessionID,
+    userID: id,
+    user: displayName,
+    score: 0,
+    role: 1
+  }).save().then(() => {
+    console.log(`Session ID ${sessionID} created by ${user}`)
+    return true
+  }).catch((error) => {
+    console.log(`There was an error: ${error}`)
+    return false
+  })
 
 }

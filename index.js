@@ -37,23 +37,38 @@ const processCommand = receivedMessage => {
   const primaryCommand = fullCommand.substr(1);
 
   console.log(`Command executed: ${primaryCommand}`);
-  if (primaryCommand === 'bluff') {
-    choices = ['🇦', '🇧', '🇨', '🇩', '🇪']
-    client.commands.get('bluff').execute(receivedMessage, receivedMessage.author);
+
+  if (receivedMessage.guild) {
+    if (primaryCommand === 'bluff') {
+      choices = ['🇦', '🇧', '🇨', '🇩', '🇪']
+      client.commands.get('bluff').execute(receivedMessage, client);
+    }
+
+    if (primaryCommand === 'join') {
+      sessionID = receivedMessage.content.substr(fullCommand.length + 1);
+      client.commands.get('join').execute(receivedMessage, sessionID, client)
+    }
+
+    if (primaryCommand === 'quit') {
+      client.commands.get('quit').execute(receivedMessage)
+    }
+
+    if (primaryCommand === 'session') {
+      client.commands.get('session').execute(receivedMessage, client)
+    }
+
+
+    if (primaryCommand === 'start') {
+      client.commands.get('start').execute(receivedMessage, client);
+    }
+
+  } else {
+    if (primaryCommand === 'answer') {
+      client.commands.get('answer').execute(receivedMessage);
+    }
+
   }
 
-  if (primaryCommand === 'join') {
-    sessionID = receivedMessage.content.substr(fullCommand.length + 1);
-    client.commands.get('join').execute(receivedMessage, receivedMessage.author, sessionID)
-  }
-
-  if (primaryCommand === 'quit') {
-    client.commands.get('quit').execute(receivedMessage, receivedMessage.author)
-  }
-
-  if (primaryCommand === 'session') {
-    client.commands.get('session').execute(receivedMessage, receivedMessage.author)
-  }
 }
 
 client.login(discord.token);

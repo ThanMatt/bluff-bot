@@ -11,7 +11,8 @@ module.exports = joinSession = (user, sessionID) => {
           userID: id,
           user: displayName,
           score: 0,
-          role: 0
+          role: 0,
+          isAnswered: 0
         }).save()
         return true
       } else {

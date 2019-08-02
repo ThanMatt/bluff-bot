@@ -8,7 +8,8 @@ const sessionSchema = new Schema({
   userID: String,
   user: String,
   score: Number,
-  role: Number
+  role: Number,
+  isAnswered: Number
 })
 
 const Session = mongoose.model(mongo.collection2, sessionSchema);

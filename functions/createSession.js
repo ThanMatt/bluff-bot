@@ -7,7 +7,8 @@ module.exports = createSession = (user, sessionID) => {
     userID: id,
     user: displayName,
     score: 0,
-    role: 1
+    role: 1,
+    isAnswered: 0,
   }).save().then(() => {
     console.log(`Session ID ${sessionID} created by ${user}`)
     return true

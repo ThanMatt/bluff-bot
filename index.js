@@ -39,16 +39,20 @@ const processCommand = receivedMessage => {
   console.log(`Command executed: ${primaryCommand}`);
   if (primaryCommand === 'bluff') {
     choices = ['🇦', '🇧', '🇨', '🇩', '🇪']
-    client.commands.get('bluff').execute(receivedMessage, receivedMessage.author.id, client);
+    client.commands.get('bluff').execute(receivedMessage, receivedMessage.author);
   }
 
   if (primaryCommand === 'join') {
     sessionID = receivedMessage.content.substr(fullCommand.length + 1);
-    client.commands.get('join').execute(receivedMessage, receivedMessage.author, sessionID, client)
+    client.commands.get('join').execute(receivedMessage, receivedMessage.author, sessionID)
+  }
+
+  if (primaryCommand === 'quit') {
+    client.commands.get('quit').execute(receivedMessage, receivedMessage.author)
   }
 
   if (primaryCommand === 'session') {
-
+    client.commands.get('session').execute(receivedMessage, receivedMessage.author)
   }
 }
 

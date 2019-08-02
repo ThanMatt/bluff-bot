@@ -1,18 +1,16 @@
 const Session = require('../models/session-model');
-const uniqid = require('uniqid');
 
-module.exports = createSession = (userID) => {
-  sessionID = uniqid();
-  return Session.findOne({ userID, role: 1 })
+module.exports = createSession = (user, sessionID) => {
+  return Session.findOne({ user })
     .then((currentAuthor) => {
       if (!currentAuthor) {
         new Session({
           sessionID,
-          userID,
+          user,
           score: 0,
           role: 1
-        }).save().then((data) => {
-          console.log(`Session ID ${sessionID} created by ${userID}`)
+        }).save().then(() => {
+          console.log(`Session ID ${sessionID} created by ${user}`)
         })
         return false;
       } else {

@@ -5,7 +5,7 @@ const Schema = mongoose.Schema
 
 const sessionSchema = new Schema({
   sessionID: String,
-  userID: String,
+  user: String,
   score: Number,
   role: Number
 })

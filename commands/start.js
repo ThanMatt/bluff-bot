@@ -35,7 +35,7 @@ module.exports = {
             })
 
             setTimeout(async () => {
-              message.channel.send(`Time's up pakyu`)
+              message.channel.send(`Time's up`)
               players = await getAnswers(guild.id, sessionID);
 
               answers = players.map((player) => { return player.answer })

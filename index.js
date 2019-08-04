@@ -1,8 +1,9 @@
 const fs = require('fs');
 const Discord = require('discord.js');
 const mongoose = require('mongoose');
-const { discord, mongo } = require('./config.json');
+const _ = require('lodash');
 
+const { discord, mongo } = require('./config.json');
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
 
@@ -64,7 +65,7 @@ const processCommand = receivedMessage => {
 
   } else {
     if (primaryCommand === 'answer') {
-      answer = receivedMessage.content.substr(fullCommand.length + 1);
+      answer = _.startCase(receivedMessage.content.substr(fullCommand.length + 1));
       client.commands.get('answer').execute(receivedMessage, client, answer);
     }
 

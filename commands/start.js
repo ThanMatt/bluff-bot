@@ -13,7 +13,10 @@ module.exports = {
     if (currentAuthor) {
       if (currentAuthor.role === 1) {
         const { sessionID } = currentAuthor;
-        const question = await getQuestion();
+        const { question, correctAnswer } = await getQuestion();
+        const timer = 20000;
+        let answers = [];
+
 
         if (currentAuthor.status) {
           message.channel.send(`The session has already started!`)
@@ -24,32 +27,34 @@ module.exports = {
             message.channel.send({
               embed: {
                 title: 'Question',
-                description: `${question}\n\nEnter your lie by typing \`-answer <your lie>\` thru direct message`
+                description: `${question}\n\nEnter your lie by typing \`-answer <your lie>\` thru direct message\n\nYou have **15** seconds`
               }
             })
             client.users.get(member.id).send({
               embed: {
                 title: 'Question',
-                description: `${question}\n\nEnter your lie by typing \`-answer <your lie>\` here`
+                description: `${question}\n\nEnter your lie by typing \`-answer <your lie>\` here\n\nYou have **${timer / 1000}** seconds`
               }
             })
 
             setTimeout(async () => {
               message.channel.send(`Time's up`)
               players = await getAnswers(guild.id, sessionID);
-
-              answers = players.map((player) => { return player.answer })
+              const choices = ['B. ', 'C. ', 'D. ', 'E. ', 'F. ', 'G. '];
+              let counter = 0;
+              answers = players.map((player) => { return player.answer });
+              answers.push(correctAnswer);
+              answers.sort(() => Math.random() - 0.5);
               message.channel.send({
                 embed: {
                   title: 'Judge Time',
-                  description: `${question}\n\nChoices:\n${answers.join('\n')}`
+                  description: `${question}\n\nChoices:\n${'**A.** ' + answers.join(`\n**${choices[counter++]}**`)}`
                 }
               })
-            }, 7000);
+            }, timer);
 
           } else {
             message.channel.send(`There was an error`)
-            console.log('There was an error getting the question')
           }
 
         }

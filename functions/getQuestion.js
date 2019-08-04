@@ -5,12 +5,8 @@ module.exports = getQuestion = async () => {
 
   random = Math.floor(Math.random() * totalQuestions) + 1;
   return Question.findOne({number: random})
-  .then(({question}) => {
-    if (question) {
-      return question;
-    } else {
-      return false
-    }
+  .then((currentQuestion) => {
+    return currentQuestion;
   }).catch((err) => {
     console.log(`There was an error: ${err}`);
   })

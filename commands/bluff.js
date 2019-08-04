@@ -6,13 +6,13 @@ module.exports = {
   name: 'bluff',
   description: 'Starts bluffing game session',
   async execute(message) {
-    const { member, author } = message;
+    const { member, author, guild } = message;
 
-    const currentAuthor = await hasUserSession(member.id);
+    const currentAuthor = await hasUserSession(member.id, guild.id);
 
     if (!currentAuthor) {
       sessionID = uniqid();
-      session = await createSession(member, sessionID);
+      session = await createSession(member, sessionID, guild.id);
 
       if (session) {
         message.channel.send(`${author} has created a session!`)

@@ -1,16 +1,11 @@
 const Session = require('../models/session-model');
 
 module.exports = checkSession = (currentUser) => {
-  const { sessionID } = currentUser;
+  const { sessionID, guildID } = currentUser;
 
-  return Session.find({ sessionID })
+  return Session.find({ sessionID, guildID })
     .then((currentSession) => {
-      if (currentSession) {
-        const players = currentSession.map((player) => { return player.user })
-
-        return players;
-      }
-      return false
+      return currentSession
     }).catch((err) => {
       console.log(`There was an error: ${err}`)
     })

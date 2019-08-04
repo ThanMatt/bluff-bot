@@ -5,10 +5,12 @@ const Schema = mongoose.Schema
 
 const sessionSchema = new Schema({
   sessionID: String,
+  guildID: String,
   userID: String,
   user: String,
   score: Number,
   role: Number,
+  status: Number,
   isAnswered: Number
 })
 

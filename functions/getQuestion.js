@@ -4,7 +4,6 @@ module.exports = getQuestion = async () => {
   totalQuestions = await Question.countDocuments({}).then((data) => {return data});
 
   random = Math.floor(Math.random() * totalQuestions) + 1;
-  console.log(random);
   return Question.findOne({number: random})
   .then(({question}) => {
     if (question) {

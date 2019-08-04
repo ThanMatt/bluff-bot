@@ -1,10 +1,24 @@
-const hasUserSession = require('../functions/hasUserSession');
+const getUserInfo = require('../functions/hasUserAnswered');
+const userAnswered = require('../functions/userAnswered')
 
 module.exports = {
   name: 'answer',
   description: 'Enter a lie',
-  async execute(message, client) {
+  async execute(message, client, answer) {
     const { author } = message;
-    client.users.get(author.id).send('boo');
+    const currentAuthor = await getUserInfo(author.id);
+
+    if (currentAuthor) {
+
+      if (currentAuthor.isAnswered) {
+        client.users.get(author.id).send(`You've already answered. Wait for another question`)
+      } else {
+        userAnswered(answer, author.id);
+        client.users.get(author.id).send(answer);
+      }
+    } else {
+      client.users.get(author.id).send(`No ongoing sessions`)
+    }
+    //client.users.get(author.id).send(answer);
   }
 }

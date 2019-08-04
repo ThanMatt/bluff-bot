@@ -4,8 +4,8 @@ module.exports = {
   name: 'quit',
   description: 'Quits a session',
   async execute(message) {
-    const { member, author } = message;
-    const currentAuthor = await hasUserSession(member.id);
+    const { member, author, guild } = message;
+    const currentAuthor = await hasUserSession(member.id, guild.id);
 
     if (currentAuthor) {
 

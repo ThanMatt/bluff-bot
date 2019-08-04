@@ -64,7 +64,8 @@ const processCommand = receivedMessage => {
 
   } else {
     if (primaryCommand === 'answer') {
-      client.commands.get('answer').execute(receivedMessage, client);
+      answer = receivedMessage.content.substr(fullCommand.length + 1);
+      client.commands.get('answer').execute(receivedMessage, client, answer);
     }
 
   }

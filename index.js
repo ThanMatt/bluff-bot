@@ -41,7 +41,6 @@ const processCommand = receivedMessage => {
 
   if (receivedMessage.guild) {
     if (primaryCommand === 'bluff') {
-      choices = ['🇦', '🇧', '🇨', '🇩', '🇪']
       client.commands.get('bluff').execute(receivedMessage, client);
     }
 

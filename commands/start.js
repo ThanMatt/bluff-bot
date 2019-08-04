@@ -14,7 +14,7 @@ module.exports = {
       if (currentAuthor.role === 1) {
         const { sessionID } = currentAuthor;
         const { question, correctAnswer } = await getQuestion();
-        const timer = 20000;
+        const timer = 30000;
         let answers = [];
 
 
@@ -27,7 +27,7 @@ module.exports = {
             message.channel.send({
               embed: {
                 title: 'Question',
-                description: `${question}\n\nEnter your lie by typing \`-answer <your lie>\` thru direct message\n\nYou have **15** seconds`
+                description: `${question}\n\nEnter your lie by typing \`-answer <your lie>\` thru direct message\n\nYou have **${timer / 1000}** seconds`
               }
             })
             client.users.get(member.id).send({
@@ -41,6 +41,7 @@ module.exports = {
               message.channel.send(`Time's up`)
               players = await getAnswers(guild.id, sessionID);
               const choices = ['B. ', 'C. ', 'D. ', 'E. ', 'F. ', 'G. '];
+              const reactChoices = ['🇦', '🇧', '🇨', '🇩', '🇪']
               let counter = 0;
               answers = players.map((player) => { return player.answer });
               answers.push(correctAnswer);
@@ -50,7 +51,13 @@ module.exports = {
                   title: 'Judge Time',
                   description: `${question}\n\nChoices:\n${'**A.** ' + answers.join(`\n**${choices[counter++]}**`)}`
                 }
+              }).then((message) => {
+                reactChoices.slice(0, answers.length).map((choice) => {
+                  message.react(choice);
+                })
+
               })
+
             }, timer);
 
           } else {

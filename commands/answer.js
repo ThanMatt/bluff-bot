@@ -11,7 +11,7 @@ module.exports = {
     if (currentAuthor) {
 
       if (currentAuthor.isAnswered) {
-        client.users.get(author.id).send(`You've already answered. Wait for another question`)
+        client.users.get(author.id).send(`You've already answered or the session hasn't started yet.`)
       } else {
         userAnswered(answer, author.id);
         client.users.get(author.id).send(answer);

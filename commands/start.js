@@ -1,6 +1,7 @@
 const getQuestion = require('../functions/getQuestion');
 const hasUserSession = require('../functions/hasUserSession');
 const startSession = require('../functions/startSession');
+const getAnswers = require('../functions/getAnswers');
 
 module.exports = {
   name: 'start',
@@ -32,6 +33,19 @@ module.exports = {
                 description: `${question}\n\nEnter your lie by typing \`-answer <your lie>\` here`
               }
             })
+
+            setTimeout(async () => {
+              message.channel.send(`Time's up pakyu`)
+              players = await getAnswers(guild.id, sessionID);
+
+              answers = players.map((player) => { return player.answer })
+              message.channel.send({
+                embed: {
+                  title: 'Judge Time',
+                  description: `${question}\n\nChoices:\n${answers.join('\n')}`
+                }
+              })
+            }, 7000);
 
           } else {
             message.channel.send(`There was an error`)

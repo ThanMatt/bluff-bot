@@ -15,7 +15,7 @@ module.exports = {
       const sessionHost = session.filter((player) => { return player.role === 1 });
 
       if (session) {
-        const status = ['Waiting', 'Playing'];
+        const status = ['Waiting', 'Playing', 'Judging'];
         const sessionPlayers = session.map((player) => { return player.user })
 
         message.channel.send({
